@@ -126,11 +126,13 @@ def main():
 
     # Get input shape and check for unsupported layer type
     current_shape = None
+    input_shape_set = False
     for keras_layer in layer_config:
         if keras_layer["class_name"] not in supported_layers:
             raise Exception('ERROR: Unsupported layer type: {}'.format(keras_layer["class_name"]))
-        if 'batch_input_shape' in keras_layer['config']:
+        if 'batch_input_shape' in keras_layer['config'] and input_shape_set == False:
             current_shape = keras_layer['config']['batch_input_shape'] # [None, 100, 7]
+            input_shape_set = True
 
     print('Topology:')
     for keras_layer in layer_config:
